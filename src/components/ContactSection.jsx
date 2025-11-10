@@ -95,13 +95,13 @@ export const ContactSection = () => {
             </div>
           </div>
 
-          {/* Right: Image block (cuadrado, estético y responsivo) */}
+          {/* Right: Image block - se adapta a las dimensiones de la imagen */}
           <div className="flex items-center justify-center">
-            <div className="bg-card rounded-xl overflow-hidden shadow-lg w-64 h-64 md:w-96 md:h-96 flex items-center justify-center">
+            <div className="bg-card rounded-2xl overflow-hidden shadow-lg flex items-center justify-center border-2 border-primary/20">
               <img
-                src="/projects/phrase.png"
+                src="/projects/phrase.jpg"
                 alt="Moisés Chuctaya"
-                className="w-full h-full object-cover"
+                className="w-auto h-auto max-w-md hover:scale-105 transition-transform duration-300"
               />
             </div>
           </div>
