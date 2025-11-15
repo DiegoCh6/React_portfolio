@@ -101,7 +101,7 @@ export const ContactSection = () => {
               <img
                 src="/projects/phrase.jpg"
                 alt="Moisés Chuctaya"
-                className="w-auto h-auto max-w-md hover:scale-105 transition-transform duration-300"
+                className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hover:scale-105 transition-transform duration-300"
               />
             </div>
           </div>
