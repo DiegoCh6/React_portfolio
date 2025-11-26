@@ -82,7 +82,7 @@ export const StarBackground = () => {
           className="meteor animate-meteor"
           style={{
             width: meteor.size * 20 + "px",
-            height: meteor.size * 7 + "px",
+            height: meteor.size * 2 + "px",
             left: meteor.x + "%",
             top: meteor.y + "%",
             animationDelay: meteor.delay,

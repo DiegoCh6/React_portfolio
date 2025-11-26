@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", href: "#hero" },
@@ -16,17 +17,27 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.screenY > 10);
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const NavLink = ({ item, onClick }) => (
+    <a
+      href={item.href}
+      onClick={onClick}
+      className="text-foreground/80 hover:text-primary transition-colors duration-300"
+    >
+      {item.name}
+    </a>
+  );
+
   return (
     <nav
       className={cn(
         "fixed w-full z-40 transition-all duration-300",
-        // fondo ligero por defecto, más oscuro y con sombra al hacer scroll
         isScrolled
           ? "py-3 bg-background/90 backdrop-blur-md shadow-md border-b border-border"
           : "py-5 bg-background/60"
@@ -34,59 +45,47 @@ export const Navbar = () => {
     >
       <div className="container flex items-center justify-between">
         <a
-          className="text-xl font-bold text-primary flex items-center"
+          className="text-xl font-bold text-primary"
           href="#hero"
+          aria-label="Home"
         >
-          <span className="relative z-10">
-            <span className="text-glow text-foreground"> Moises Ch </span>{" "}
-            Portfolio
-          </span>
+          <span className="text-foreground">Moises Ch</span> Portfolio
         </a>
 
-        {/* desktop nav */}
-        <div className="hidden md:flex space-x-8">
-          {navItems.map((item, key) => (
-            <a
-              key={key}
-              href={item.href}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
-            >
-              {item.name}
-            </a>
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center space-x-8">
+          {navItems.map((item) => (
+            <NavLink key={item.href} item={item} />
           ))}
+          <ThemeToggle />
         </div>
 
-        {/* mobile nav */}
-        <button
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="md:hidden p-2 text-foreground z-50"
-          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}{" "}
-        </button>
+        {/* Mobile nav buttons */}
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="p-2 text-foreground z-50"
+            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
-        <div
-          className={cn(
-            "fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center",
-            "transition-all duration-300 md:hidden",
-            isMenuOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          )}
-        >
-          <div className="flex flex-col space-y-8 text-xl">
-            {navItems.map((item, key) => (
-              <a
-                key={key}
-                href={item.href}
-                className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </a>
-            ))}
+        {/* Mobile menu overlay */}
+        {isMenuOpen && (
+          <div className="fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center md:hidden">
+            <nav className="flex flex-col space-y-8 text-xl">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.href}
+                  item={item}
+                  onClick={() => setIsMenuOpen(false)}
+                />
+              ))}
+            </nav>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );
