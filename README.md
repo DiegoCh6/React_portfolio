@@ -1,7 +1,7 @@
 # 🌐 Diego Chuctaya — Portfolio
 
 <p align="center">
-	<img src="/public/projects/my-photo.jpg" alt="Moisés Chuctaya" width="220" style="border-radius: 16px;" />
+	<img src="/public/projects/Home.png" alt="Moisés Chuctaya" width="220" style="border-radius: 16px;" />
 </p>
 
 Welcome to my professional portfolio.  
