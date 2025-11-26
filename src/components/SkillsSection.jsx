@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Shield, Code2, Layers, Grid3X3, Sparkles } from "lucide-react";
 
 const SKILLS = [
@@ -159,32 +159,48 @@ const CategoryButton = ({ category, isActive, onClick }) => {
   );
 };
 
-const SkillCard = ({ skill }) => (
-  <div className="group relative p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-    <div className="flex justify-between items-center mb-4">
-      <div className="flex items-center gap-3">
-        <SkillIcon skill={skill} />
-        <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
-          {skill.name}
-        </h3>
+const SkillCard = ({ skill, trigger }) => {
+  const [progress, setProgress] = useState(0);
+  const prevLevel = useRef(0);
+
+  useEffect(() => {
+    // Reset to 0 first
+    setProgress(0);
+    // Then animate to target after a small delay
+    const timer = setTimeout(() => {
+      setProgress(skill.level);
+    }, 50);
+    
+    return () => clearTimeout(timer);
+  }, [trigger, skill.name]);
+
+  return (
+    <div className="group relative p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center gap-3">
+          <SkillIcon skill={skill} />
+          <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
+            {skill.name}
+          </h3>
+        </div>
+        <span
+          className={`text-xs px-2 py-1 rounded-full font-medium border ${getLevelBadgeStyles(
+            skill.level
+          )}`}
+        >
+          {skill.level}%
+        </span>
       </div>
-      <span
-        className={`text-xs px-2 py-1 rounded-full font-medium border ${getLevelBadgeStyles(
-          skill.level
-        )}`}
-      >
-        {skill.level}%
-      </span>
+      <div className="w-full h-2 rounded-full bg-gradient-to-r from-secondary/60 to-secondary/40 overflow-hidden">
+        <div
+          className="h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500 origin-left transition-all duration-1000 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/0 to-emerald-500/0 group-hover:from-primary/5 group-hover:to-emerald-500/5 transition-all duration-300 -z-10" />
     </div>
-    <div className="w-full h-2 rounded-full bg-gradient-to-r from-secondary/60 to-secondary/40 overflow-hidden">
-      <div
-        className="h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500 origin-left transition-all duration-500 ease-out"
-        style={{ width: `${skill.level}%` }}
-      />
-    </div>
-    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/0 to-emerald-500/0 group-hover:from-primary/5 group-hover:to-emerald-500/5 transition-all duration-300 -z-10" />
-  </div>
-);
+  );
+};
 
 export const SkillsSection = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -235,7 +251,11 @@ export const SkillsSection = () => {
         {/* Skills grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
           {filteredSkills.map((skill) => (
-            <SkillCard key={`${skill.name}-${skill.category}`} skill={skill} />
+            <SkillCard
+              key={`${skill.name}-${skill.category}`}
+              skill={skill}
+              trigger={activeCategory}
+            />
           ))}
         </div>
       </div>
