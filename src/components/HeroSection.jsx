@@ -8,6 +8,7 @@ import {
   Linkedin,
   Mail,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const SKILLS = [
   {
@@ -70,42 +71,64 @@ const SocialLink = ({ href, icon: Icon, label }) => (
   </a>
 );
 
-const ProfileImage = () => (
-  <div className="flex-shrink-0 opacity-0 animate-fade-in-delay-2">
-    <div className="relative group">
-      {/* Background glow */}
-      <div className="absolute -inset-8 bg-gradient-to-r from-primary/30 via-emerald-500/20 to-teal-500/30 rounded-full blur-3xl group-hover:blur-[60px] transition-all duration-700 opacity-60 group-hover:opacity-100 animate-pulse-subtle" />
+const ProfileImage = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    "/projects/my-photo.png",
+    "/projects/my-photo.jpg",
+    "/projects/my-photo2.png",
+  ];
 
-      {/* Decorative rings */}
-      <div className="absolute -inset-4 rounded-full border-2 border-primary/20 animate-pulse-subtle" />
-      <div
-        className="absolute -inset-8 rounded-full border border-primary/10 animate-pulse-subtle"
-        style={{ animationDelay: "0.5s" }}
-      />
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 4000); // Cambiar cada 4 segundos
 
-      {/* Image container */}
-      <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] rounded-full overflow-hidden bg-card/50 backdrop-blur-md shadow-2xl border-4 border-primary/30 group-hover:border-primary/60 transition-all duration-700 group-hover:scale-105 group-hover:rotate-2">
-        <img
-          src="/projects/my-photo.jpg"
-          alt="Moisés Chuctaya - Security Analyst"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex-shrink-0 opacity-0 animate-fade-in-delay-2">
+      <div className="relative group">
+        {/* Background glow */}
+        <div className="absolute -inset-8 bg-gradient-to-r from-primary/30 via-emerald-500/20 to-teal-500/30 rounded-full blur-3xl group-hover:blur-[60px] transition-all duration-700 opacity-60 group-hover:opacity-100 animate-pulse-subtle" />
+
+        {/* Decorative rings */}
+        <div className="absolute -inset-4 rounded-full border-2 border-primary/20 animate-pulse-subtle" />
+        <div
+          className="absolute -inset-8 rounded-full border border-primary/10 animate-pulse-subtle"
+          style={{ animationDelay: "0.5s" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      </div>
 
-      {/* Floating particles */}
-      <div className="absolute top-0 right-0 w-4 h-4 bg-primary rounded-full opacity-60 animate-float" />
-      <div
-        className="absolute bottom-10 left-0 w-3 h-3 bg-emerald-500 rounded-full opacity-60 animate-float"
-        style={{ animationDelay: "1s" }}
-      />
-      <div
-        className="absolute top-1/2 right-0 w-2 h-2 bg-teal-500 rounded-full opacity-60 animate-float"
-        style={{ animationDelay: "2s" }}
-      />
+        {/* Image container */}
+        <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] rounded-full overflow-hidden bg-card/50 backdrop-blur-md shadow-2xl border-4 border-primary/30 group-hover:border-primary/60 transition-all duration-700 group-hover:scale-105 group-hover:rotate-2">
+          {images.map((src, index) => (
+            <img
+              key={src}
+              src={src}
+              alt="Moisés Chuctaya - Security Analyst"
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-2 ${
+                currentImage === index ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
+
+        {/* Floating particles */}
+        <div className="absolute top-0 right-0 w-4 h-4 bg-primary rounded-full opacity-60 animate-float" />
+        <div
+          className="absolute bottom-10 left-0 w-3 h-3 bg-emerald-500 rounded-full opacity-60 animate-float"
+          style={{ animationDelay: "1s" }}
+        />
+        <div
+          className="absolute top-1/2 right-0 w-2 h-2 bg-teal-500 rounded-full opacity-60 animate-float"
+          style={{ animationDelay: "2s" }}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const HeroSection = () => {
   return (
