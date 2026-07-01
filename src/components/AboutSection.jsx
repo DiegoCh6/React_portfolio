@@ -165,13 +165,23 @@ export const AboutSection = () => {
               </a>
 
               <a
-                href="/projects/CV_DiegoCh_SecurityAnalyst.pdf"
+                href="/projects/Diego_Chuctaya_CV_SOC_Analyst.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-9 py-5 rounded-full border-2 border-primary/30 bg-card/50 backdrop-blur-sm text-foreground font-semibold transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:border-primary hover:scale-105 active:scale-95"
               >
                 <Download className="h-5 w-5" />
                 Download CV
+              </a>
+
+              <a
+                href="/projects/Diego_Chuctaya_CV_SOC_Analyst_English.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-9 py-5 rounded-full border-2 border-primary/30 bg-card/50 backdrop-blur-sm text-foreground font-semibold transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:border-primary hover:scale-105 active:scale-95"
+              >
+                <Download className="h-5 w-5" />
+                Download CV (EN)
               </a>
             </div>
           </div>
